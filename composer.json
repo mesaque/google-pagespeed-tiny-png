@@ -1,0 +1,6 @@
+{
+    "require": {
+        "tinify/tinify": "^1.5",
+        "sgrodzicki/pagespeed": "^2.0"
+    }
+}
