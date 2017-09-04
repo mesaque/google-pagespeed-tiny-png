@@ -31,4 +31,18 @@ foreach ( $args as $key => $value ):
 	$image_url    = $value['result']['args'][0]['value'];
 	$parsed_image = parse_url( $image_url );
 	if( $current_host != $parsed_image['host'] ) continue;
+
+	$source = \Tinify\fromUrl($image_url);
+
+	$path_name = dirname($parsed_image['path']);
+	$file_name = basename($parsed_image['path']);
+
+	if (! file_exists($params['WEBSITE_ROOT_PATH'] . $path_name . '/') ):
+	    mkdir($params['WEBSITE_ROOT_PATH'] . $path_name . '/', 0755, true);
+	endif;
+
+	if( true ==  $params['KEEP_BACKUP'] ):
+		copy( $params['WEBSITE_ROOT_PATH'] . $path_name . '/' . $file_name, $params['WEBSITE_ROOT_PATH'] . $path_name . '/' . $file_name . '-BKP');
+	endif;
+	$source->toFile( $params['WEBSITE_ROOT_PATH'] . $path_name . '/' . $file_name );
 endforeach;
